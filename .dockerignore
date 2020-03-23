@@ -1,0 +1,13 @@
+#
+# Ignore for docker build (don't include in docker image)
+#
+.idea
+.DS_Store
+
+.gitignore
+.git
+
+*.md
+*.sh
+LICENSE
+
