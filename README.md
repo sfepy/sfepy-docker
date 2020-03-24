@@ -1,7 +1,7 @@
 # sfepy-docker
 Experimental docker images for [SfePy](http://sfepy.org) (Simple finite elements in Python) project. All images
- are available from the [Docker Hub](https://hub.docker.com/u/kejzlar).
-
+ are available from the Docker Hub 
+ [Sfepy organization repositories](https://hub.docker.com/repository/docker/sfepy/sfepy-notebook).
 
 # sfepy-notebook image
 

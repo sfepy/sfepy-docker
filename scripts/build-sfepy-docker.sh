@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 function usage {
-    echo -e "Usage: $0 -v version_tag [-r repository] \n"
+    echo -e "Usage: $0 -v version_tag [-r repository] [-p] \n"
     exit 1
 }
 
-REPO="kejzlar"
+REPO="sfepy"
 VERSION=""
+PUSH=""
 
 while [[ $# -gt 0 ]]
 do
@@ -23,15 +24,18 @@ case $key in
     shift
     shift
     ;;
+  -p|--push)
+    PUSH="YES"
+    shift
+    ;;
   *)
     usage
     exit 1
-    shift
     ;;
 esac
 done
 
-if [[ -z $VERSION ]]; then
+if [[ -z "$VERSION" ]]; then
   VERSION=$(git ls-remote --tags --sort="v:refname" \
           https://github.com/sfepy/sfepy.git | \
           grep release | tail -n1  | \
@@ -39,11 +43,25 @@ if [[ -z $VERSION ]]; then
 fi
 
 CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-cd "$CWD"/..
+cd "$CWD"/.. || exit
 
-pushd notebook || exit
-docker build .  -t "$REPO/sfepy-notebook" \
-                -t "$REPO/sfepy-notebook:$VERSION"
-popd || exit
+for dir in notebook
+do
+  cd ${dir} || exit
+
+  echo -n "Building ${dir}:${VERSION} images..."
+  docker build .  --build-arg SFEPY_RELEASE="${VERSION}" \
+                  -t "$REPO/sfepy-${dir}" -t "$REPO/sfepy-${dir}:$VERSION"
+  echo -e " done.\n"
+
+  if [[ ! -z "$PUSH" ]]; then
+    echo -n "Pushing images to $REPO repository..."
+    docker push "$REPO/sfepy-${dir}"
+    docker push "$REPO/sfepy-${dir}:$VERSION"
+    echo " done."
+  fi
+
+  cd ..
+done
 
 exit 0
