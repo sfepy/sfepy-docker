@@ -17,16 +17,16 @@ __Caution:__ this image is NOT size optimized (~2GB) and the pull may tike some 
 
 You can pull image from Docker hub or just run this image interactively using the following command:
 
-    docker run --rm -it -p 8888:8888 kejzlar/sfepy-notebook
+    docker run --rm -it -p 8888:8888 sfepy/sfepy-notebook
 
 You can also map any local folder (including `<problem_description_file>`) to docker image `/data` path and
 run directly selected `SfePy` script (e.g. `simple.py`):
 
-    docker run --rm -it -v $(pwd):/hoem/sfepy/data kejzlar/sfepy-notebook sfepy_run simple <problem_description_file>
+    docker run --rm -it -v $(pwd):/hoem/sfepy/data sfepy/sfepy-notebook sfepy_run simple <problem_description_file>
 
 Alternatively, you can start a Jupyter Notebook/Lab server and interact with `SfePy` via your browser:
 
-    docker run --rm -it -p 8888:8888 kejzlar/sfepy-notebook
+    docker run --rm -it -p 8888:8888 sfepy/sfepy-notebook
 
 and from docker image prompt:
 
@@ -56,7 +56,7 @@ For further information see official [SfePy](http://sfepy.org/doc-devel/index.ht
   but you still can:
   * run any computation in "headless" mode:
 
-        $ sfepy-run postproc cylinder.vtk -o cylinder.png -n
+        $ sfepy-run postproc data.vtk -o data.png -n
   
   * embed interactive `mayavi` 3D plotting into Jupyter notebook:
   
