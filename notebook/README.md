@@ -30,7 +30,7 @@ Alternatively, you can start a Jupyter Notebook/Lab server and interact with `Sf
 and from docker image prompt:
 
     $ jupyter notebook
-or (experimental)
+or
 
     $ juppyter lab
     

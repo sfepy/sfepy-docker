@@ -24,7 +24,7 @@ run directly selected `SfePy` script (e.g. `simple.py`):
 
     docker run --rm -it -v $(pwd):/home/sfepy/data sfepy/sfepy-notebook sfepy_run simple <problem_description_file>
 
-Alternatively, you can start a Jupyter Notebook/Lab server and interact with `SfePy` via your browser:
+Alternatively, you can start a `Jupyter Notebook/JupyterLab` server and interact with `SfePy` via your browser:
 
     docker run --rm -it -p 8888:8888 sfepy/sfepy-notebook
 
@@ -36,7 +36,7 @@ or (experimental)
 
     $ juppyter lab
     
-You can then view the Jupyter notebook/lab by opening `http://127.0.0.1:8888/?token=...` link in your browser.
+You can then view the `Jupyter Notebook/JupyterLab` by opening `http://127.0.0.1:8888/?token=...` link in your browser.
 
 For further information see official [SfePy](http://sfepy.org/doc-devel/index.html#documentation) and
 [Docker](https://docs.docker.com/) instructions.
