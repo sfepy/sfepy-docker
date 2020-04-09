@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-ARG SFEPY_RELEASE
+ARG SFEPY_RELEASE=2020.1
 
 ENV PATH=/opt/conda/bin:$PATH
 ENV SHELL=/bin/bash
@@ -8,13 +8,16 @@ ENV SHELL=/bin/bash
 ENV DISPLAY=:99.0
 
 USER root
-RUN apt-get update --fix-missing --no-install-recommends \
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     && apt-get install --no-install-recommends -yq  \
         wget bzip2 ca-certificates \
         sudo procps \
         libglib2.0-0 libxext6 libsm6 libxrender1 \
         xvfb x11-utils xauth libx11-dev qt5-default \
     && apt-get clean \
+    && apt-get -y autoremove \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && adduser --disabled-password \
             --gecos "Default Sfepy user" \
             --uid 1000 \
@@ -48,7 +51,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
     && conda clean -afy
 
-# Install Jupyter notebook/lab extensions
+# Install Jupyter sfepy-notebook/lab extensions
 RUN jupyter nbextension install mayavi --py --sys-prefix \
     && jupyter nbextension enable mayavi --py --sys-prefix \
     && jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \

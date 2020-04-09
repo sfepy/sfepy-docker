@@ -45,19 +45,19 @@ fi
 CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 cd "$CWD"/.. || exit
 
-for dir in notebook
+for dir in sfepy-notebook, sfepy-x11vnc-notebook
 do
   cd ${dir} || exit
 
   echo -n "Building ${dir}:${VERSION} images..."
-  docker build .  --build-arg SFEPY_RELEASE="${VERSION}" \
-                  -t "$REPO/sfepy-${dir}" -t "$REPO/sfepy-${dir}:$VERSION"
+  docker build --rm .  --build-arg SFEPY_RELEASE="${VERSION}" \
+         -t "$REPO/${dir}" -t "$REPO/${dir}:$VERSION"
   echo -e " done.\n"
 
-  if [[ ! -z "$PUSH" ]]; then
+  if [[ -n "$PUSH" ]]; then
     echo -n "Pushing images to $REPO repository..."
-    docker push "$REPO/sfepy-${dir}"
-    docker push "$REPO/sfepy-${dir}:$VERSION"
+    docker push "$REPO/${dir}"
+    docker push "$REPO/${dir}:$VERSION"
     echo " done."
   fi
 
