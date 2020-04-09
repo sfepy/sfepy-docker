@@ -47,7 +47,7 @@ For further information see official [SfePy](http://sfepy.org/doc-devel/index.ht
 * Use image tag to select specific `SfePy` release.
 * Inside running image you can install additional packages or change settings with `sudo`
   command (no password required). These changes are NOT persistent across multiple
-  `docker run` commands. 
+  `docker run` commands (see [Docker volumes](https://docs.docker.com/storage/volumes/) for more info).
 * `conda` installation prefix is  `/opt/conda`.
 * `SfePy` sources can be found at `/opt/conda/lib/python3.7/site-packages/sfepy`.
 

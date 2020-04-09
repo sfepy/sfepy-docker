@@ -195,7 +195,7 @@ def get_screen_resolution():
         width, height = root.winfo_screenwidth(), root.winfo_screenheight()
 
         return str(width) + 'x' + str(height)
-    except tk.EXCEPTION:
+    except Exception:
         return ""
 
 
