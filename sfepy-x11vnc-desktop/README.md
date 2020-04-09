@@ -19,7 +19,7 @@ on security and features:
 ### Usage
 
 To run the Docker image, first download the script 
-[sfepy_x11vnc_desktop.py](https://raw.githubusercontent.com/sfepy/sfepy-docker/master/sfepy_x11vnc_desktop.py)
+[sfepy_x11vnc_desktop.py](https://raw.githubusercontent.com/sfepy/sfepy-docker/master/scripts/sfepy_x11vnc_desktop.py)
 and save it to the working directory where you will store your codes and data.
 
 After downloading the script, you can start the Docker image using the command:
