@@ -43,8 +43,8 @@ def parse_args(description):
                         default=tag)
 
     parser.add_argument('-v', '--volume',
-                        help='A data volume to be mounted at ~/" +  projdir '
-                             '+ ". ' + 'The default is ' + volume + '.',
+                        help='A data volume to be mounted at ~/' + projdir +
+                             '. ' + 'The default is ' + volume + '.',
                         default=volume)
 
     parser.add_argument('-w', '--workdir',
@@ -307,7 +307,7 @@ def main():
             try:
                 if args.verbose:
                     sys.stdout.write(
-                        "Removing old docker volume " + config + ".\n")
+                        "Removing old docker volume " + args.volume + ".\n")
                 subprocess.check_output(["docker", "volume",
                                          "rm", "-f", args.volume])
             except subprocess.CalledProcessError as e:

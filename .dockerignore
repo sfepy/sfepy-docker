@@ -11,3 +11,5 @@
 *.sh
 LICENSE
 
+tmp
+scripts
