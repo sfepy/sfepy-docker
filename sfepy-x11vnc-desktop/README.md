@@ -40,11 +40,13 @@ python sfepy_x11vnc_desktop.py -h
 ##### Docker Run Parameters
 
 Please note the "circular definition" here: you need at least basic Python installation
-to run Docker image with (advanced) Python installation (Sorry ;). Of course, you can run
-Docker from command line, but there is really looong parameters line...
+to run Docker image with (advanced) Python installation (Sorry of that ;).
+Of course, you can run Docker from command line, but that is really 
+looong parameters line...
 
 
-For further information see official [SfePy](http://sfepy.org/doc-devel/index.html#documentation) and
+For further information see official 
+[SfePy](http://sfepy.org/doc-devel/index.html#documentation) and
 [Docker](https://docs.docker.com/) instructions.
 
 ## Find Us

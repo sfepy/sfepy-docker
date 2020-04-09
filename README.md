@@ -106,16 +106,17 @@ python sfepy_x11vnc_desktop.py -h
 ##### Docker Run Parameters
 
 Please note the "circular definition" here: you need at least basic Python installation
-to run Docker image with (advanced) Python installation (Sorry ;). Of course, you can run
-Docker from command line, but there is really looong parameters line...
+to run Docker image with (advanced) Python installation (Sorry ih that ;).
+Of course, you can run Docker from command line, but that is really 
+looong parameters line...
 
 
 ##### Useful Information
 
 * All volumes mapped into this image ARE persistent across multiple
   `docker run` commands (see [Docker volumes](https://docs.docker.com/storage/volumes/) for more info).
-* This image does not contain Jupyter notebook/JupyterLab component by default,
-  everything else is same as [sfepy-notebook](#Image sfepy-notebook).
+* This image does not contain Jupyter notebook/JupyterLab components by default,
+  everything else is same as for `sfepy-notebook` image.
 
 ## Find Us
 
