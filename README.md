@@ -112,7 +112,8 @@ Docker from command line, but there is really looong parameters line...
 
 ##### Useful Information
 
-* All volumes mapped into this image ARE persistent.
+* All volumes mapped into this image ARE persistent across multiple
+  `docker run` commands (see [Docker volumes](https://docs.docker.com/storage/volumes/) for more info).
 * This image does not contain Jupyter notebook/JupyterLab component by default,
   everything else is same as [sfepy-notebook](#Image sfepy-notebook).
 
