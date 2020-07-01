@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ARG DOCKER_LANG=en_US
 ARG DOCKER_TIMEZONE=Europe/Prague
@@ -34,7 +34,7 @@ RUN apt-get update && \
         man \
         sudo \
         rsync \
-        bsdtar \
+        libarchive-tools \
         net-tools \
         gpg-agent \
         inetutils-ping \
@@ -61,8 +61,7 @@ RUN apt-get update && \
         xauth \
         x11vnc \
         \
-        firefox \
-        xpdf && \
+        firefox && \
     chmod 755 /usr/local/share/zsh/site-functions && \
     apt-get -y autoremove && \
     ssh-keygen -A && \
@@ -77,9 +76,8 @@ RUN apt-get update && \
     chmod a-x /usr/bin/lxpolkit && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install Miniconda3 Python with SfePy
-
-ENV PATH=/opt/conda/bin:$PATH
+# Install Miniconda Python3 with SfePy
+ENV PATH=/opt/conda/bin:/usr/local/bin/:$PATH
 ENV SHELL=/bin/bash
 
 RUN curl -s -o ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
@@ -88,6 +86,8 @@ RUN curl -s -o ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-lat
     && conda config --set always_yes yes \
     && conda config --add channels conda-forge \
     && conda install --freeze-installed \
+        pip \
+        setuptools \
         nomkl \
         sfepy=${SFEPY_RELEASE} \
         mayavi \
@@ -98,35 +98,15 @@ RUN curl -s -o ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-lat
     && conda clean -afy
 
 # Install websokify and noVNC
-RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
-    python3 get-pip.py && \
-    pip3 install --no-cache-dir \
-        setuptools && \
-    pip3 install -U https://github.com/novnc/websockify/archive/60acf3c.tar.gz && \
+RUN pip3 install -U https://github.com/novnc/websockify/archive/60acf3c.tar.gz && \
     mkdir /usr/local/noVNC && \
     curl -s -L https://github.com/x11vnc/noVNC/archive/master.tar.gz | \
          bsdtar zxf - -C /usr/local/noVNC --strip-components 1 && \
     rm -rf /tmp/* /var/tmp/*
 
-# Install x11vnc from source
-# Install X-related to compile x11vnc from source code.
-# https://bugs.launchpad.net/ubuntu/+source/x11vnc/+bug/1686084
-# Also, fix issue with Shift-Tab not working
-# https://askubuntu.com/questions/839842/vnc-pressing-shift-tab-tab-only
-RUN apt-get update && \
-    apt-get install -y libxtst-dev libssl-dev libjpeg-dev && \
-    \
-    mkdir -p /tmp/x11vnc-0.9.14 && \
-    curl -s -L http://x11vnc.sourceforge.net/dev/x11vnc-0.9.14-dev.tar.gz | \
-        bsdtar zxf - -C /tmp/x11vnc-0.9.14 --strip-components 1 && \
-    cd /tmp/x11vnc-0.9.14 && \
-    ./configure --prefix=/usr/local CFLAGS='-O2 -fno-stack-protector -Wall' && \
-    make && \
-    make install && \
-    perl -e 's/,\s*ISO_Left_Tab//g' -p -i /usr/share/X11/xkb/symbols/pc && \
-    apt-get -y remove libxtst-dev libssl-dev libjpeg-dev && \
-    apt-get -y autoremove && \
+RUN perl -e 's/,\s*ISO_Left_Tab//g' -p -i /usr/share/X11/xkb/symbols/pc && \
     ldconfig && \
+    apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 

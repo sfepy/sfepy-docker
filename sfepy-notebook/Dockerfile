@@ -1,6 +1,6 @@
-FROM debian:buster-slim
+FROM debian:stable-slim
 
-ARG SFEPY_RELEASE=2020.1
+ARG SFEPY_RELEASE=UNKNOWN
 
 ENV PATH=/opt/conda/bin:$PATH
 ENV SHELL=/bin/bash
@@ -44,14 +44,10 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
         itkwidgets \
         jupyterlab \
         notebook \
-        nodejs \
-        tini \
-    && find /opt/conda/ -follow -type f -name '*.a' -delete \
-    && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
-    && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
-    && conda clean -afy
+        "nodejs>=10.0.0"\
+        tini
 
-# Install Jupyter sfepy-notebook/lab extensions
+# Install Jupyter notebook/lab extensions
 RUN jupyter nbextension install mayavi --py --sys-prefix \
     && jupyter nbextension enable mayavi --py --sys-prefix \
     && jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \
@@ -62,11 +58,14 @@ RUN jupyter nbextension install mayavi --py --sys-prefix \
     && jupyter lab build  \
     && jupyter lab clean \
     && npm cache clean --force \
-    && conda uninstall nodejs -y \
-    && conda clean -afy \
+    && conda uninstall nodejs \
+    && find /opt/conda/ -follow -type f -name '*.a' -delete \
+    && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
+    && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
     && rm -rf /opt/conda/share/jupyter/lab/staging \
     && rm -rf /home/sfepy/.cache/yarn \
-    && rm -rf /home/sfepy/.node-gyp
+    && rm -rf /home/sfepy/.node-gyp \
+    && conda clean -afy
 
 WORKDIR /home/sfepy
 

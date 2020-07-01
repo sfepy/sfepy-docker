@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
+RED='\033[0;31m'
+NC='\033[0m'
+
 function usage {
-    echo -e "Usage: $0 -v version_tag [-r repository] [-p] \n"
+    echo -e "Usage: $0 [-v version_tag] [-r repository] [-d build_dirs] [-p] \n"
     exit 1
 }
 
 REPO="sfepy"
 VERSION=""
-PUSH=""
+PUSH="NO"
+BUILD_DIRS="sfepy-notebook sfepy-x11vnc-desktop"
 
 while [[ $# -gt 0 ]]
 do
@@ -21,6 +25,11 @@ case $key in
     ;;
   -r|--repository)
     REPO="$2"
+    shift
+    shift
+    ;;
+  -d|--build_dirs)
+    BUILD_DIRS="$2"
     shift
     shift
     ;;
@@ -45,23 +54,22 @@ fi
 CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 cd "$CWD"/.. || exit
 
-for dir in sfepy-notebook, sfepy-x11vnc-notebook
+for dir in ${BUILD_DIRS}
 do
-  cd ${dir} || exit
+  cd "${dir}" || exit
 
-  echo -n "Building ${dir}:${VERSION} images..."
+  echo -e "${RED}Building Docker image(s): ${dir}:${VERSION}${NC}"
   docker build --rm .  --build-arg SFEPY_RELEASE="${VERSION}" \
          -t "$REPO/${dir}" -t "$REPO/${dir}:$VERSION"
-  echo -e " done.\n"
+  echo -e "Done.\n"
 
-  if [[ -n "$PUSH" ]]; then
-    echo -n "Pushing images to $REPO repository..."
+  if [[ "$PUSH" = "YES" ]]; then
+    echo -e "${RED}Pushing Docker images to $REPO repository${NC}"
     docker push "$REPO/${dir}"
     docker push "$REPO/${dir}:$VERSION"
-    echo " done."
+    echo -e "Done.\n"
   fi
 
   cd ..
 done
-
 exit 0
