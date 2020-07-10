@@ -1,6 +1,14 @@
-FROM debian:stable-slim
+#FROM debian:stable-slim
+FROM ubuntu:20.04
 
 ARG SFEPY_RELEASE=UNKNOWN
+
+ARG DOCKER_LANG=en_US
+ARG DOCKER_TIMEZONE=Europe/Prague
+
+ENV LANG=$DOCKER_LANG.UTF-8 \
+    LANGUAGE=$DOCKER_LANG:UTF-8 \
+    LC_ALL=$DOCKER_LANG.UTF-8
 
 ENV PATH=/opt/conda/bin:$PATH
 ENV SHELL=/bin/bash
@@ -10,7 +18,13 @@ ENV DISPLAY=:99.0
 USER root
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    && apt-get install --no-install-recommends -yq  \
+        apt-utils \
+        apt-file \
+        locales \
+        language-pack-en \
+    && locale-gen $LANG \
+    && dpkg-reconfigure -f noninteractive locales \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         wget bzip2 ca-certificates \
         sudo procps \
         libglib2.0-0 libxext6 libsm6 libxrender1 \

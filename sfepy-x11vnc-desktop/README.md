@@ -10,7 +10,7 @@ on security and features:
 * Accessible via standard web browser or VNC client.
 * Connection is protected by a unique random password for each session.
 * Supports dynamic resizing of the desktop and 24-bit true color.
-* Supports Ubuntu LTS release 18.04 with very fast launching.
+* Supports Ubuntu LTS release 20.04 with very fast launching.
 * Automatically shares the current work directory from host to Docker image.
 * Automatically opens default browser to show running desktop.
 * Official `Miniconda3` installation including `Python 3.7+` and `SfePy`.
@@ -40,7 +40,7 @@ python sfepy_x11vnc_desktop.py -h
 ##### Docker Run Parameters
 
 Please note the "circular definition" here: you need at least basic Python installation
-to run Docker image with (advanced) Python installation (Sorry of that ;).
+to run Docker image with (advanced) Python installation (Sorry of that ;(.
 Of course, you can run Docker from command line, but that is really 
 looong parameters line...
 

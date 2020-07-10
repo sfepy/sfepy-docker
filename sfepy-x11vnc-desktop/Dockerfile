@@ -3,8 +3,6 @@ FROM ubuntu:20.04
 ARG DOCKER_LANG=en_US
 ARG DOCKER_TIMEZONE=Europe/Prague
 
-ARG SFEPY_RELEASE=2020.1
-
 ENV LANG=$DOCKER_LANG.UTF-8 \
     LANGUAGE=$DOCKER_LANG:UTF-8 \
     LC_ALL=$DOCKER_LANG.UTF-8
@@ -109,7 +107,6 @@ RUN perl -e 's/,\s*ISO_Left_Tab//g' -p -i /usr/share/X11/xkb/symbols/pc && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-
 ########################################################
 # Customization for user and location
 ########################################################
@@ -122,7 +119,6 @@ ENV DOCKER_USER=sfepy \
 ENV DOCKER_GROUP=$DOCKER_USER \
     DOCKER_HOME=/home/$DOCKER_USER \
     SHELL=$DOCKER_SHELL
-
 
 # Change the default timezone to $DOCKER_TIMEZONE
 # Run ldconfig so that /usr/local/lib etc. are in the default

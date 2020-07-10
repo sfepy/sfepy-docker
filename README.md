@@ -46,7 +46,7 @@ For further information see official [SfePy](http://sfepy.org/doc-devel/index.ht
 * Docker container is based on `debian:buster-slim` distribution.
 * Use image tag to select specific `SfePy` release.
 * Inside a running image you can install additional packages or change settings with `sudo`
-  command (no password required). These changes are NOT persistent across multiple
+  command (no password required). These changes **ARE NOT persistent** across multiple
   `docker run` commands (see [Docker volumes](https://docs.docker.com/storage/volumes/) for more info).
 * `conda` installation prefix is  `/opt/conda`.
 * `SfePy` sources can be found at `/opt/conda/lib/python3.7/site-packages/sfepy`.
@@ -77,7 +77,7 @@ on security and features:
 * Accessible via standard web browser or VNC client.
 * Connection is protected by a unique random password for each session.
 * Supports dynamic resizing of the desktop and 24-bit true color.
-* Supports Ubuntu LTS release 18.04 with very fast launching.
+* Supports Ubuntu LTS release 20.04 with very fast launching.
 * Automatically shares the current work directory from host to the Docker image.
 * Automatically opens the default browser to show the running desktop.
 * Official `Miniconda3` installation including `Python 3.7+` and `SfePy`.
@@ -113,7 +113,7 @@ looong parameters line...
 
 ##### Useful Information
 
-* All volumes mapped into this image ARE persistent across multiple
+* All volumes mapped into this image **ARE persistent** across multiple
   `docker run` commands (see [Docker volumes](https://docs.docker.com/storage/volumes/) for more info).
 * This image does not contain Jupyter notebook/JupyterLab components by default,
   everything else is the same as for the `sfepy-notebook` image.
