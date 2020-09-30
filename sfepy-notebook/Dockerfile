@@ -1,4 +1,3 @@
-#FROM debian:stable-slim
 FROM ubuntu:20.04
 
 ARG SFEPY_RELEASE=UNKNOWN
