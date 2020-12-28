@@ -64,7 +64,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 RUN jupyter nbextension install mayavi --py --sys-prefix \
     && jupyter nbextension enable mayavi --py --sys-prefix \
     && jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build \
-    && jupyter labextension install @bokeh/jupyter_bokeh --no-build \
+#    && jupyter labextension install @bokeh/jupyter_bokeh --no-build \
     && jupyter labextension install jupyter-matplotlib --no-build \
     && jupyter labextension install jupyterlab-datawidgets --no-build \
     && jupyter labextension install itkwidgets --no-build \
