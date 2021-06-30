@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:latest
 
 ARG SFEPY_RELEASE=UNKNOWN
 
