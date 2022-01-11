@@ -52,9 +52,9 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
         sfepy=${SFEPY_RELEASE} \
         mayavi \
         scikit-umfpack \
-        ipyevents \
+#        ipyevents \
+#        itkwidgets \
         ipywidgets \
-        itkwidgets \
         jupyterlab \
         notebook \
         "nodejs>=10.0.0"\
