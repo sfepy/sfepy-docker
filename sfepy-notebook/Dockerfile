@@ -27,7 +27,7 @@ RUN apt-get update \
         wget bzip2 ca-certificates \
         sudo procps \
         libglib2.0-0 libxext6 libsm6 libxrender1 \
-        xvfb x11-utils xauth libx11-dev qt5-default \
+        xvfb x11-utils xauth libx11-dev \
     && apt-get clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
