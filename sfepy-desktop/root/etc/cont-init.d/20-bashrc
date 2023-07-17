@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv bash
+
+cp /defaults/config/bashrc /config/.bashrc
+cp /defaults/config/profile /config/.profile
+
+chmod 600 /config/.bashrc /config/.profile
+chown -R abc:abc /config

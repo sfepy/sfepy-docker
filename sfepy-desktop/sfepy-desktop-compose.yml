@@ -1,0 +1,23 @@
+---
+version: "2.1"
+services:
+  sfepy-desktop:
+    image: sfepy/sfepy-desktop
+    container_name: sfepy-desktop
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+      - TZ=Europe/Prague
+      - TITLE="SfePy Desktop"
+    volumes:
+      - ${PWD}:/config                # <path-to-sfepy-data>:<home-dir>
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "3000:3000"
+#    devices:
+#      - /dev/dri:/dev/dri            # Linux hosts only
+    shm_size: "1gb"
+    restart: unless-stopped

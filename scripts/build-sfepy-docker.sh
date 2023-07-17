@@ -11,7 +11,7 @@ function usage {
 REPO="sfepy"
 VERSION=""
 PUSH="NO"
-BUILD_DIRS="sfepy-notebook sfepy-x11vnc-desktop"
+BUILD_DIRS="sfepy-desktop"
 
 while [[ $# -gt 0 ]]
 do
