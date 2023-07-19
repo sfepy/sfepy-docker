@@ -34,7 +34,7 @@ services:
       - PGID=1000
       - UMASK=022
       - TZ=Europe/Prague
-      - TITLE="SfePy Desktop"
+      - TITLE=SfePy Desktop
     volumes:
       - <path-to-sfepy-data>:/config                # <path-to-sfepy-data>:<home-dir>
       - /var/run/docker.sock:/var/run/docker.sock
