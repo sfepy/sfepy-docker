@@ -9,7 +9,7 @@ COPY --from=continuumio/miniconda3:latest /opt/conda /opt/conda
 #
 # SfePy conda-forge package
 #
-ENV PATH=/opt/conda/condabin/:${PATH}
+ENV PATH=/opt/conda/bin/:${PATH}
 
 RUN set -x \
     && ln -sf /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh \
@@ -18,6 +18,8 @@ RUN set -x \
     && conda update -y --quiet --all \
     && conda install -y --quiet \
         sfepy=${SFEPY_RELEASE} \
+        ipython \
+        pytest \
         pyvista \
         trame \
     && find /opt/conda/ -follow -type f -name '*.a' -delete \
