@@ -4,7 +4,7 @@ All images are available from the Docker hub [Sfepy organization](https://hub.do
 
 ## Image `sfepy-desktop`
 
-`sfepy-desktop` is an Ubuntu based containers containing full desktop environments in officially supported flavors 
+`sfepy-desktop` is an Ubuntu based container containing a full desktop environment in officially supported flavors
 accessible via any modern web browser.
 
 All docker images are based on officially supported [Webtop](https://github.com/linuxserver/docker-webtop)
