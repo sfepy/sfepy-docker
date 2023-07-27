@@ -21,7 +21,6 @@ RUN set -x \
         ipython \
         pytest \
         pyvista \
-        trame \
     && find /opt/conda/ -follow -type f -name '*.a' -delete \
     && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
     && /opt/conda/bin/conda clean -afy
