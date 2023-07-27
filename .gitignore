@@ -5,3 +5,4 @@
 .DS_Store
 #
 /tmp/
+scripts/.app-access-token-dockerhub
