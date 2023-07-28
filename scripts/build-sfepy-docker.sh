@@ -15,7 +15,7 @@ PUSH="NO"
 
 SYNC="NO"
 README="README.md"
-SYNC_TOKEN_FILE=".app-access-token-dockerhub"
+SYNC_TOKEN_FILE=".secrets/.app-access-token-dockerhub"
 BUILD_DIRS="sfepy-desktop"
 
 while [[ $# -gt 0 ]]
@@ -67,14 +67,6 @@ for dir in ${BUILD_DIRS}
 do
   cd "${dir}" || exit
 
-  if [[ "$PUSH" = "YES" ]]; then
-    echo -e "${RED}Pushing Docker images to $REPO repository${NC}"
-    docker push "$REPO/${dir}"
-    docker push "$REPO/${dir}:$VERSION"
-    echo -e "Done.\n"
-    exit 0
-  fi
-
   if [[ "$SYNC" = "YES" ]]; then
     echo -e "${RED}Syncing ${dir}/${README} to Docker description file...${NC}"
     "${SCRIPT_BIN}"/docker-sync-readme.py \
@@ -83,7 +75,7 @@ do
         --repo="$REPO/${dir}" \
         --password="$(<"${SCRIPT_BIN}"/${SYNC_TOKEN_FILE})"
     echo -e "Done.\n"
-    exit 0
+    continue
   fi
 
   echo -e "${RED}Building Docker image(s): ${dir}:${VERSION}${NC}"
@@ -91,6 +83,13 @@ do
          -t "$REPO/${dir}" -t "$REPO/${dir}:$VERSION"
   echo -e "Done.\n"
 
+  if [[ "$PUSH" = "YES" ]]; then
+    echo -e "${RED}Pushing Docker images to $REPO repository${NC}"
+    docker push "$REPO/${dir}"
+    docker push "$REPO/${dir}:$VERSION"
+    echo -e "Done.\n"
+    continue
+  fi
   cd ..
 done
 exit 0
