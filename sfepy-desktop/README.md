@@ -34,6 +34,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "3000:3000"
+      - "3001:3001"
 #    devices:
 #      - /dev/dri:/dev/dri                          # Linux hosts only
     shm_size: "1gb"
@@ -43,6 +44,8 @@ The most important configuration to change in the above file is `<path-to-sfepy-
 SfePy `<problem_description_file>` related data (we recommend using an absolute path to avoid any confusion).
 The selected `<path-to-sfepy-data>` is mounted as a *persistent volume* to the default user's home directory (`/config`)
 inside the running container.
+
+You also should set `PUID/PGID` to match current user's `PID/GID` values.
 
 #### Running `sfepy-desktop` container
 To create the container (assuming your configuration file is in the current directory), use the following command:
