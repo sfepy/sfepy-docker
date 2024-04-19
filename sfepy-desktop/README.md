@@ -6,9 +6,12 @@ Official Docker container images for the [SfePy](http://sfepy.org) (Simple finit
 
 `sfepy-desktop` is an Ubuntu-based container containing a full desktop environment in officially supported flavors, accessible via any modern web browser.
 
-All Docker images are based on officially supported [Webtop](https://github.com/linuxserver/docker-webtop) Docker images from [linuxserver.io](https://www.linuxserver.io). They are bootstrapped with the latest [Miniconda3](https://docs.conda.io/en/latest/miniconda.html) and [SfePy](https://anaconda.org/conda-forge/sfepy) packages, which are pre-configured and ready to use.
+All Docker images are based on officially supported [Webtop](https://github.com/linuxserver/docker-webtop) Docker 
+images from [linuxserver.io](https://www.linuxserver.io). They are bootstrapped with the latest [Miniforge3](https://github.com/conda-forge/miniforge)
+and [SfePy](https://anaconda.org/conda-forge/sfepy) packages, which are pre-configured and ready to use.
 
-The Miniconda distribution is installed into the `/opt/conda` folder, ensuring that the default user has the `conda` command in their path and the conda `base` environment is activated.
+The `Miniforge` distribution is installed into the `/opt/conda` folder, ensuring that the default user has the `conda` 
+command in their path and the conda `base` environment is activated.
 
 ### Usage
 #### Basic Configuration
@@ -16,7 +19,6 @@ To get started with creating a container, we highly recommend using the `docker-
 
 ```yaml
 ---
-version: "2.1"
 services:
   sfepy-desktop:
     image: sfepy/sfepy-desktop
@@ -30,13 +32,13 @@ services:
       - TZ=Europe/Prague
       - TITLE=SfePy Desktop
     volumes:
-      - <path-to-sfepy-data>:/config                # <path-to-sfepy-data>:<home-dir>
+      - <path-to-sfepy-data>:/config    # <path-to-sfepy-data>:<home-dir>
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "3000:3000"
       - "3001:3001"
-#    devices:
-#      - /dev/dri:/dev/dri                          # Linux hosts only
+    devices:
+      - /dev/dri:/dev/dri               # Optional: Linux hosts only
     shm_size: "1gb"
     restart: unless-stopped
 ```
