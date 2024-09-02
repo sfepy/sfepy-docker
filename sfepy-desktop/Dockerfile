@@ -10,16 +10,25 @@ COPY --from=condaforge/miniforge3:latest /opt/conda /opt/conda
 # Install sfepy & tools packages
 #
 ENV PATH=${PATH}:/opt/conda/condabin/
+#
+# Pip wheels build support
+#
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+#
 RUN conda update -y --quiet --all \
     && conda install -y --quiet \
-        sfepy=${SFEPY_RELEASE} \
+        pip \
         pytest \
         pyvista \
         ipython \
     && find /opt/conda/ -follow -type f -name '*.a' -delete \
     && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
     && conda clean -afy \
-    && ln -sf /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+    && ln -sf /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh \
+    && /opt/conda/bin/python3 -m pip install --no-cache-dir sfepy==${SFEPY_RELEASE}
 
 # Add local files
 COPY /root /
