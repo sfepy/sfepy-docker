@@ -77,9 +77,8 @@ if [[ -z "$VERSION" ]]; then
 fi
 
 if ! docker buildx ls | grep -q "${BUILDER}" ; then
-  echo -e "Warning: no expected multi-platform builder ($BUILDER) found. Creating new one..."
+  echo -e "${RED}Warning: no expected multi-platform builder ($BUILDER) found. Creating new one...${NC}"
   docker buildx create --name "${BUILDER}" --driver docker-container --use --bootstrap
-  echo -e "Done.\n"
 fi
 
 SCRIPT_BIN="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
@@ -96,7 +95,7 @@ do
         --readme="${README}" \
         --repo="$REPO/${dir}" \
         --password="$(<"${SCRIPT_BIN}"/${SYNC_TOKEN_FILE})"
-    echo -e "Done.\n"
+
     continue
   fi
 
@@ -107,10 +106,9 @@ do
     echo -e "${RED}Pushing Docker images requested. Pushing to repository: $REPO ${NC}"
   fi
 
-  echo docker buildx build "${PUSH_FLAG}" --platform "${BUILD_PLATFORM}" --rm --build-arg SFEPY_RELEASE="${VERSION}" \
+  docker buildx build "${PUSH_FLAG}" --platform "${BUILD_PLATFORM}" --rm --build-arg SFEPY_RELEASE="${VERSION}" \
          --tag "$REPO/${TEST_PREFIX}${dir}" --tag "$REPO/${TEST_PREFIX}${dir}:${VERSION}" .
 
-  echo -e "Done.\n"
   cd ..
 done
 exit 0
