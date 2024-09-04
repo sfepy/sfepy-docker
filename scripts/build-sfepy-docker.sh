@@ -100,14 +100,14 @@ do
     continue
   fi
 
-  echo -e "${RED}Building Docker image(s): ${dir}:${VERSION}${NC}"
+  echo -e "${RED}Building Docker image(s): ${TEST_PREFIX}${dir}:${VERSION}${NC}"
   echo -e "${RED}Multiplatform build enabled. Supported platforms: ${BUILD_PLATFORM}${NC}"
 
   if [[ "$PUSH" = "YES" ]]; then
     echo -e "${RED}Pushing Docker images requested. Pushing to repository: $REPO ${NC}"
   fi
 
-  docker buildx build "${PUSH_FLAG}" --platform "${BUILD_PLATFORM}" --rm --build-arg SFEPY_RELEASE="${VERSION}" \
+  echo docker buildx build "${PUSH_FLAG}" --platform "${BUILD_PLATFORM}" --rm --build-arg SFEPY_RELEASE="${VERSION}" \
          --tag "$REPO/${TEST_PREFIX}${dir}" --tag "$REPO/${TEST_PREFIX}${dir}:${VERSION}" .
 
   echo -e "Done.\n"
