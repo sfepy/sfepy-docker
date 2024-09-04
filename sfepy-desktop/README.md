@@ -8,7 +8,8 @@ Official Docker container images for the [SfePy](http://sfepy.org) (Simple finit
 
 All Docker images are based on officially supported [Webtop](https://github.com/linuxserver/docker-webtop) Docker 
 images from [linuxserver.io](https://www.linuxserver.io). They are bootstrapped with the latest [Miniforge3](https://github.com/conda-forge/miniforge)
-and [SfePy](https://anaconda.org/conda-forge/sfepy) packages, which are pre-configured and ready to use.
+and [SfePy](https://anaconda.org/conda-forge/sfepy) packages, which are pre-configured and ready to use. 
+`sfepy-desktop` images are currently supported on `amd64` and `arm64` architectures.
 
 The `Miniforge` distribution is installed into the `/opt/conda` folder, ensuring that the default user has the `conda` 
 command in their path and the conda `base` environment is activated.

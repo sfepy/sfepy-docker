@@ -4,19 +4,27 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 function usage {
-    echo -e "Usage: $0 [-v version_tag] [-r repository] [-d build_dirs] [-p] [-s] \n"
+    echo -e "Usage: $0 [-v version_tag] [-r repository] [-d build_dirs] [-p] [-pt] [-s] \n"
     exit 1
 }
 
 REPO="sfepy"
+
+TEST_REPO="kejzlar"
+TEST_PREFIX=""
+
 VERSION=""
 
 PUSH="NO"
+PUSH_FLAG="--load"
 
 SYNC="NO"
 README="README.md"
 SYNC_TOKEN_FILE=".secrets/.app-access-token-dockerhub"
+
 BUILD_DIRS="sfepy-desktop"
+BUILD_PLATFORM="linux/amd64,linux/arm64"
+BUILDER="sfepy-builder"
 
 while [[ $# -gt 0 ]]
 do
@@ -40,6 +48,14 @@ case $key in
     ;;
   -p|--push)
     PUSH="YES"
+    PUSH_FLAG="--push"
+    shift
+    ;;
+  -pt|-t|--push_test)
+    PUSH="YES"
+    PUSH_FLAG="--push"
+    REPO="${TEST_REPO}"
+    TEST_PREFIX="test-"
     shift
     ;;
    -s|--sync-readme)
@@ -58,6 +74,12 @@ if [[ -z "$VERSION" ]]; then
           https://github.com/sfepy/sfepy.git | \
           grep release | tail -n1  | \
           sed 's/.*\///; s/\^{}//; s/release_//')
+fi
+
+if ! docker buildx ls | grep -q "${BUILDER}" ; then
+  echo -e "Warning: no expected multi-platform builder ($BUILDER) found. Creating new one..."
+  docker buildx create --name "${BUILDER}" --driver docker-container --use --bootstrap
+  echo -e "Done.\n"
 fi
 
 SCRIPT_BIN="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
@@ -79,17 +101,16 @@ do
   fi
 
   echo -e "${RED}Building Docker image(s): ${dir}:${VERSION}${NC}"
-  docker build --rm .  --build-arg SFEPY_RELEASE="${VERSION}" \
-         -t "$REPO/${dir}" -t "$REPO/${dir}:$VERSION"
-  echo -e "Done.\n"
+  echo -e "${RED}Multiplatform build enabled. Supported platforms: ${BUILD_PLATFORM}${NC}"
 
   if [[ "$PUSH" = "YES" ]]; then
-    echo -e "${RED}Pushing Docker images to $REPO repository${NC}"
-    docker push "$REPO/${dir}"
-    docker push "$REPO/${dir}:$VERSION"
-    echo -e "Done.\n"
-    continue
+    echo -e "${RED}Pushing Docker images requested. Pushing to repository: $REPO ${NC}"
   fi
+
+  docker buildx build "${PUSH_FLAG}" --platform "${BUILD_PLATFORM}" --rm --build-arg SFEPY_RELEASE="${VERSION}" \
+         --tag "$REPO/${TEST_PREFIX}${dir}" --tag "$REPO/${TEST_PREFIX}${dir}:${VERSION}" .
+
+  echo -e "Done.\n"
   cd ..
 done
 exit 0
