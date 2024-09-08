@@ -9,7 +9,7 @@ accessible via any modern web browser.
 
 All docker images are based on officially supported [Webtop](https://github.com/linuxserver/docker-webtop)
 docker images from [linuxserver.io](https://www.linuxserver.io) and bootstrapped with latest
-[Miniconda3](https://docs.conda.io/en/latest/miniconda.html) and
+[Miniforge3](https://github.com/conda-forge/miniforge) and
 [SfePy](https://anaconda.org/conda-forge/sfepy) packages that are configured and ready to use.
 
 The Miniconda distribution is installed into the `/opt/conda` folder and ensures that the default user has the 
@@ -66,6 +66,12 @@ Running container can be stopped/started at any time with
 
 Note that any modifications made previously to stopped container remains persistent until you explicitly delete the 
 container. For further information see official [Docker Compose documentation](https://docs.docker.com/compose/).
+
+### Stopping and removing old containers
+
+Stop and remove containers, networks with
+
+    $ docker compose down
 
 ### Advanced usage
 There are plenty of additional parameters and fine-tuning options you can use. For official documentation, support 
