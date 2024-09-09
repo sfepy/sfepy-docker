@@ -1,28 +1,26 @@
 # sfepy-docker
-Official docker container images for [SfePy](http://sfepy.org) (Simple finite elements in Python) project.
+
+Official Docker container images for the [SfePy](http://sfepy.org) (Simple finite elements in Python) project.
 All images are available from the Docker hub [Sfepy organization](https://hub.docker.com/u/sfepy) repositories.
 
 ## Image `sfepy-desktop`
 
-`sfepy-desktop` is an Ubuntu based container containing a full desktop environment in officially supported flavors
-accessible via any modern web browser.
+`sfepy-desktop` is an Ubuntu-based container containing a full desktop environment in officially supported flavors, accessible via any modern web browser.
 
-All docker images are based on officially supported [Webtop](https://github.com/linuxserver/docker-webtop)
-docker images from [linuxserver.io](https://www.linuxserver.io) and bootstrapped with latest
-[Miniconda3](https://docs.conda.io/en/latest/miniconda.html) and
-[SfePy](https://anaconda.org/conda-forge/sfepy) packages that are configured and ready to use.
+All Docker images are based on officially supported [Webtop](https://github.com/linuxserver/docker-webtop) Docker 
+images from [linuxserver.io](https://www.linuxserver.io). They are bootstrapped with the latest [Miniforge3](https://github.com/conda-forge/miniforge)
+and [SfePy](https://anaconda.org/conda-forge/sfepy) packages, which are pre-configured and ready to use. 
+`sfepy-desktop` images are currently supported on `amd64` and `arm64` architectures.
 
-The Miniconda distribution is installed into the `/opt/conda` folder and ensures that the default user has the 
-`conda` command in their path and conda `base` environment is activated.
+The `Miniforge` distribution is installed into the `/opt/conda` folder, ensuring that the default user has the `conda` 
+command in their path and the conda `base` environment is activated.
 
 ### Usage
-#### Basic configuration
-To get started creating container we highly recommend using `docker-compose` command with simple configuration file
-`docker-compose.yml`:
+#### Basic Configuration
+To get started with creating a container, we highly recommend using the `docker-compose` command with a simple configuration file named `docker-compose.yml`:
 
 ```yaml
 ---
-version: "2.1"
 services:
   sfepy-desktop:
     image: sfepy/sfepy-desktop
@@ -36,40 +34,49 @@ services:
       - TZ=Europe/Prague
       - TITLE=SfePy Desktop
     volumes:
-      - <path-to-sfepy-data>:/config                # <path-to-sfepy-data>:<home-dir>
+      - <path-to-sfepy-data>:/config    # <path-to-sfepy-data>:<home-dir>
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "3000:3000"
-#    devices:
-#      - /dev/dri:/dev/dri                          # Linux hosts only
+      - "3001:3001"
+    devices:
+      - /dev/dri:/dev/dri               # Optional: Linux hosts only
     shm_size: "1gb"
     restart: unless-stopped
 ```
+The most important configuration to change in the above file is `<path-to-sfepy-data>`, which should point to your
+SfePy `<problem_description_file>` related data (we recommend using an absolute path to avoid any confusion).
+The selected `<path-to-sfepy-data>` is mounted as a *persistent volume* to the default user's home directory (`/config`)
+inside the running container.
 
-Most important of above configuration you have to change is `<path-to-sfepy-data>`, which should point to your sfepy 
-`<problem_description_file>` related data (we recommend use absolute path to avoid any confusion). Selected
-`<path-to-sfepy-data>` is mounted as a *persistent volume* to default user's home directory (`/config`) inside running 
-container.
+You also should set `PUID/PGID` to match current user's `PID/GID` values.
 
 #### Running `sfepy-desktop` container
-Now you can create container (assuming your configuration file is in current directory) with
+To create the container (assuming your configuration file is in the current directory), use the following command:
 
     $ docker compose up -d
 
-and access them at:
+Access the container at:
 
     http://localhost:3000/
 
-Running container can be stopped/started at any time with
+You can stop/start the running container at any time using the following commands:
 
     $ docker compose stop/start
 
-Note that any modifications made previously to stopped container remains persistent until you explicitly delete the 
-container. For further information see official [Docker Compose documentation](https://docs.docker.com/compose/).
+Note that any modifications made to a stopped container will remain persistent until you explicitly delete the
+container. For further information, see the official [Docker Compose documentation](https://docs.docker.com/compose/).
+
+### Stopping and removing old containers
+
+Stops containers and removes containers, networks, volumes and images created by `up`.
+
+    $ docker compose down
 
 ### Advanced usage
-There are plenty of additional parameters and fine-tuning options you can use. For official documentation, support 
-and community help see [Linuxserver.io Webtop](https://github.com/linuxserver/docker-webtop/blob/master/README.md).
+There are plenty of additional parameters and fine-tuning options you can use. For official documentation, support,
+and community help, please refer to
+[Linuxserver.io Webtop](https://github.com/linuxserver/docker-webtop/blob/master/README.md).
 
 ## Find Us
 

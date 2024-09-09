@@ -66,6 +66,12 @@ You can stop/start the running container at any time using the following command
 Note that any modifications made to a stopped container will remain persistent until you explicitly delete the
 container. For further information, see the official [Docker Compose documentation](https://docs.docker.com/compose/).
 
+### Stopping and removing old containers
+
+Stops containers and removes containers, networks, volumes and images created by `up`.
+
+    $ docker compose down
+
 ### Advanced usage
 There are plenty of additional parameters and fine-tuning options you can use. For official documentation, support,
 and community help, please refer to
@@ -77,4 +83,3 @@ and community help, please refer to
 * [SfePy](http://sfepy.org)
 * [SfePy mailing list](https://mail.python.org/mm3/mailman3/lists/sfepy.python.org)
 * [sfepy-docker](https://github.com/sfepy/sfepy-docker)
-
