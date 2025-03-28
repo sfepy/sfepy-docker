@@ -2,25 +2,28 @@ FROM lscr.io/linuxserver/webtop:ubuntu-xfce
 
 LABEL maintainer="kejzlar@civ.zcu.cz"
 ARG SFEPY_RELEASE
-
-# Bootstrap Miniforge3 installation
+#
+# Bootstraped miniforge3 installation
+#
 COPY --from=condaforge/miniforge3:latest /opt/conda /opt/conda
-
-# Set environment variables
+#
+# Install sfepy & tools packages
+#
 ENV PATH=${PATH}:/opt/conda/condabin/
-
-# Install build tools and clean up
+#
+# Pip wheels build support
+#
 RUN apt-get update && apt-get install -y \
     build-essential \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-# Update conda, install required packages, and clean up
+#
 RUN conda update -y --quiet --all \
     && conda install -y --quiet \
-        ipython \
         pip \
-        pyvista \
         pytest \
+        pyvista \
+        ipython \
     && find /opt/conda/ -follow -type f -name '*.a' -delete \
     && find /opt/conda/ -follow -type f -name '*.js.map' -delete \
     && conda clean -afy \
@@ -30,6 +33,6 @@ RUN conda update -y --quiet --all \
 # Add local files
 COPY /root /
 
-# Expose ports and define volumes
+# Ports and volumes
 EXPOSE 3000 3001
 VOLUME /config
